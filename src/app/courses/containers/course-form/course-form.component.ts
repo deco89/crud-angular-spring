@@ -2,7 +2,9 @@ import { Location } from '@angular/common';
 import { Component } from '@angular/core';
 import { FormGroup, NonNullableFormBuilder } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { ActivatedRoute } from '@angular/router';
 
+import { Course } from '../../model/course';
 import { CoursesService } from '../../services/courses.service';
 
 @Component({
@@ -17,12 +19,18 @@ export class CourseFormComponent {
   constructor(private formBuilder: NonNullableFormBuilder,
     private service: CoursesService,
     private snackBar: MatSnackBar,
-    private location: Location
-  ) {
+    private location: Location,
+    private route: ActivatedRoute)
+    {
+
     this.form = this.formBuilder.group({
-      name: [''],
-      category: ['']
+    name: [''],
+    category: ['']
     });
+
+    const course: Course = this.route.snapshot.data['course'];
+    console.log(course)
+    this.form.setValue(course)
   }
 
   onSubmit() {
